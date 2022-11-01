@@ -1,0 +1,1 @@
+SELECT * FROM cs_student_info.cs_student;
