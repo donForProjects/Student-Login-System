@@ -44,7 +44,7 @@ def display_text():
 
 def submit():
     textbox.delete('1.0', tk.END) #okayy na Dditoo potaaaa
-    stud_name.delete('1 .0', tk.END) #Lumpit naman dito yung error pota FIX
+    label3.delete('1 .0', tk.END) #use get()
     stud_course.delete('1.0', tk.END)
     stud_year.delete('1.0', tk.END)
     label5.delete('1.0', tk.END)
@@ -75,7 +75,7 @@ label4 = tk.Label(root, text="", font=('Verdana', 15))
 label4.place(x=600, y=520)
 
 stud_year = tk.Label(root, text="Year", font=('Verdana', 15, 'bold' ))
-stud_year.place(x=850, y=480)
+stud_year.place(x=800, y=480)
 
 label5 = tk.Label(root, text="", font=('Verdana', 15))
 label5.place(x=850, y=520)
@@ -128,12 +128,12 @@ buttonframe.pack(fill='x') #stretch the buttons
 
 #CREATING DB
 
-conn = sqlite3.connect('student_info.db')
+#conn = sqlite3.connect('student_info.db')
 
-cur = conn.cursor()
+#cur = conn.cursor()
 
-res = cur.execute("SELECT name From sqlite_master")
-res.fetchone()
+#res = cur.execute("SELECT name From sqlite_master")
+#res.fetchone()
 
 #cur.execute("""CREATE TABLE studentInfo (
 
@@ -149,9 +149,9 @@ res.fetchone()
 
 
 
-conn.commit()
+#conn.commit()
 
-conn.close()
+#conn.close()
 
 
 
