@@ -4,10 +4,13 @@ import tkinter as tk
 import pytz
 import time
 from datetime import datetime
+import tkinter.messagebox as MessageBox
+import mysql.connector as mysql
 
 root = Tk()
 root.title('Test')
 root.geometry('1417x720')
+root.resizable(False, False)
 IST = pytz.timezone('Asia/Manila')
 
 def update_clock():
