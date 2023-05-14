@@ -65,7 +65,7 @@ def setph(word,num):
 
 def connection():
     conn =pymysql.connect(
-        host = 'localhost', user = 'root', password ='', db = 'student_info_db')
+        host = 'localhost', user = 'root', password ='', db = 'personal_infos_db')
     return conn
 
 def refreshTable():
@@ -96,9 +96,9 @@ def register():
     birth = str(birthEntry.get())
     address = str(addressEntry.get())
     phone = str(phoneEntry.get())
-    dept = str(deptEntry.get())
-    course = str(courseEntry.get())
-    year = str(yearEntry.get())
+    dept = str(track.get())
+    course = str(n2.get())
+    year = str(n3.get())
 
     if(stud_num == "" or stud_num == " ") or (l_name == "" or l_name == " ") or (f_name == "" or f_name == " ") or (birth == "" or birth == " ") or (address == "" or address == " ") or (phone == "" or phone == " ") or (dept == "" or dept == " ") or (course == "" or course == " ") or (year == "" or year == " "):
         messagebox.showinfo("Error", "Please Fill up all the fields")
@@ -119,9 +119,10 @@ def register():
     birthEntry.delete(0, 'end')
     addressEntry.delete(0, 'end')
     phoneEntry.delete(0, 'end')
-    deptEntry.delete(0, 'end')
-    courseEntry.delete(0, 'end')
-    yearEntry.delete(0, 'end')
+    track.delete(0, 'end')
+    n2.set("SELECTED COURSE")
+    n3.set("YEAR")
+
     refreshTable()
 
 def reset():
@@ -192,32 +193,28 @@ def update():
     birth = str(birthEntry.get())
     address = str(addressEntry.get())
     phone = str(phoneEntry.get())
-    dept = str(deptEntry.get())
-    course = str(courseEntry.get())
-    year = str(yearEntry.get())
+    dept = str(track.get())
+    course = str(n2.get())
+    year = str(n3.get())
 
     if(stud_num == "" or stud_num == " ") or (l_name == "" or l_name == " ") or (f_name == "" or f_name == " ") or (birth == "" or birth == " ") or (address == "" or address == " ") or (phone == "" or phone == " ") or (dept == "" or dept == " ") or (course == "" or course == " ") or (year == "" or year == " "):
         messagebox.showinfo("Error", "Please Fill up all the fields")
         return
     else:
-        try:
-            conn = connection()
-            cursor = conn.cursor()
-            cursor.execute("UPDATE cs_students SET STUDID ='"+stud_num+"',LNAME = '"+l_name+"',FNAME = '"+f_name+"',BIRTH = '"+birth+"',ADDRESS = '"+address+"',PHONE = '"+phone+"',DEPT = '"+dept+"',COURSE = '"+course+"',YEAR = '"+year+"' WHERE STUDID = '"+selectedStudid+ "' '")
-            stud_numEntry.delete(0, 'end')
-            l_nameEntry.delete(0, 'end')
-            f_nameEntry.delete(0, 'end')
-            birthEntry.delete(0, 'end')
-            addressEntry.delete(0, 'end')
-            phoneEntry.delete(0, 'end')
-            deptEntry.delete(0, 'end')
-            courseEntry.delete(0, 'end')
-            yearEntry.delete(0, 'end')
-            conn.commit()
-            conn.close()
-        except:
-            messagebox.showinfo("Error", "Please Select a Data Row")
-            return
+        conn = connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE cs_students SET STUDID ='"+stud_num+"',LNAME = '"+l_name+"',FNAME = '"+f_name+"',BIRTH = '"+birth+"',ADDRESS = '"+address+"',PHONE = '"+phone+"',DEPT = '"+dept+"',COURSE = '"+course+"',YEAR = '"+year+"' WHERE STUDID = '"+selectedStudid+ "' '")
+        stud_numEntry.delete(0, 'end')
+        l_nameEntry.delete(0, 'end')
+        f_nameEntry.delete(0, 'end')
+        birthEntry.delete(0, 'end')
+        addressEntry.delete(0, 'end')
+        phoneEntry.delete(0, 'end')
+        track.delete(0, 'end')
+        n2.set("SELECTED COURSE")
+        n3.set("YEAR")
+        conn.commit()
+        conn.close()
     refreshTable()
 
 
@@ -255,7 +252,7 @@ Label(root, text="Phone: ", font=('Verdana', 13)).place(x=1100, y=300)
 phoneEntry = Entry(root, width=17, bd=2, font=('Verdana', 13), textvariable=ph6)
 phoneEntry.place(x=1200, y=302, height = 25)
 
-Label(root, text="Department: ", font=('Verdana', 13)).place(x=430, y=350)
+Label(root, text="Track: ", font=('Verdana', 13)).place(x=430, y=350)
 
 #label3 = Label(root, text="Department", font=('Verdana', 13)).place(x=430, y=350)
 #stud_dep = ttk.Combobox(root,font=('Verdana', 8), state='readonly', value=["CCSICT", "EDUCATION", "CBM", "CJE", "SAS"])
@@ -264,21 +261,37 @@ Label(root, text="Department: ", font=('Verdana', 13)).place(x=430, y=350)
 
 #Label(root, text="Department: ", font=('Verdana', 13)).place(x=430, y=350)
 
-deptEntry = Entry(root, width=15, bd=2, font=('Verdana', 13), textvariable=ph7)
-deptEntry.place(x=550, y=350, height = 25)
+#deptEntry = Entry(root, width=15, bd=2, font=('Verdana', 13), textvariable=ph7)
+#deptEntry.place(x=550, y=350, height = 25)
+n = tk.StringVar()
+track = ttk.Combobox(root, width = 17,textvariable = n,font=('Verdana', 10, 'bold'))
+track.set("SELECTED TRACK")
+track['values'] = ('DM - Data Mining Track', 'BA - Business Analytics Track')
+track['state'] = 'readonly'
+track.place(x=550, y=352, height=25)
 
 Label(root, text="Course: ", font=('Verdana', 13)).place(x=730, y=350)
-
-courseEntry = Entry(root, width=20, bd=2, font=('Verdana', 13), textvariable=ph8)
+#courseEntry = Entry(root, width=20, bd=2, font=('Verdana', 13), textvariable=ph8)
+n2 = tk.StringVar()
+course = ttk.Combobox(root, width = 17,textvariable = n2, font=('Verdana', 13, 'bold'))
+course.set("SELECTED COURSE")
+course['values'] = ('BSCS', 'BSIT', 'BSPO', 'BPO', 'BSWD')
+course['state'] = 'readonly'
+course.place(x=850, y=350, height=25)
 
 #course = ttk.Combobox(root,font=('Verdana', 10), state='readonly', value=["1", "2", "3", "4", "5"])
 #course.set("    ---Select Course/Major--")
-courseEntry.place(x=850, y=350, height = 25, width=230)
+#courseEntry.place(x=850, y=350, height = 25, width=230)
 
 Label(root, text="Year: ", font=('Verdana', 13)).place(x=1100, y=350)
-
-yearEntry = Entry(root, width=17, bd=2, font=('Verdana', 13), textvariable=ph9)
-yearEntry.place(x=1200, y=350, height = 27)
+n3 = tk.StringVar()
+year = ttk.Combobox(root, width=14, textvariable=n3, font=('Verdana', 13, 'bold'))
+year.set("YEAR")
+year['values'] = ('1st year', '2nd year', '3rd year', '4th year')
+year['state'] = 'readonly'
+year.place(x=1200, y=350, height = 27)
+#yearEntry = Entry(root, width=17, bd=2, font=('Verdana', 13), textvariable=ph9)
+#yearEntry.place(x=1200, y=350, height = 27)
 
 
 Button(text="Register", command=register, font=('Verdana', 20, 'bold'), width=10, height=1, bg='SpringGreen4').place(x=450, y=650)

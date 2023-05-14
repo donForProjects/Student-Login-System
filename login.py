@@ -17,38 +17,36 @@ IST = pytz.timezone('Asia/Manila')
 
 def connection():
     conn =pymysql.connect(
-        host = 'localhost', user = 'root', password ='', db = 'student_info_db')
+        host = 'localhost', user = 'root', password ='', db = 'personal_infos_db')
     return conn
 
 
-def login(self):
-    global f_name
+def read():
     conn = connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM cs_students")
     results = cursor.fetchall()
     conn.commit()
     conn.close()
-    f_name = str(f_name.get())
-    greet = "Welcome Student: " + f_name.get()
+    return results
+
+
+def login():
+    global stud_numEntry
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT f_name FROM cs_students")
+    results = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    #f_name = str(f_name.get())
+    #greet = "Welcome Student: " + f_name.get()
+    #my_label = Label(root, text=greet, font=('Verdana', 18, 'bold'))
+    #my_label.place(x=800, y=520)
+    stud_numEntry = str(stud_numEntry.get())
+    greet = "Welcome Student: " + str(label3)
     my_label = Label(root, text=greet, font=('Verdana', 18, 'bold'))
-    my_label.place(x=800, y=520)
-    if(f_name == "" or f_name == " "):
-        messagebox.showinfo("Error", "Please Fill up all the fields")
-        return
-    else:
-        try:
-            conn = connection()
-            cursor = conn.cursor()
-            cursor.execute("SELECT f_name FROM cs_students")
-            conn.commit() 
-            conn.close()
-        except:
-            messagebox.showinfo("Error", "Student ID already Exists")
-            return
-        
-    stud_numEntry.delete(0, 'end')
-    #password.delete(0,'end')
+    my_label.place(x=800, y=470)
     return results
 
 def update_clock():
@@ -88,6 +86,9 @@ Label(root, text="Student ID: ", font=('Verdana', 20)).place(x=480, y=300)
 
 stud_numEntry = Entry(root, width=40, bd=2, font=('Verdana', 20))
 stud_numEntry.place(x=670, y=300, height = 50)
+
+label3 = tk.Label(root, text= " ", font=('Verdana', 20, 'bold'))
+
 
 #Label(root, text="Password: ", font=('Verdana', 20)).place(x=480, y=350)
 
